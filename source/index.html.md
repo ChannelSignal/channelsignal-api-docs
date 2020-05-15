@@ -8,8 +8,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
+  - <a href='#'>Sign Up for an API Key</a>
 
 includes:
   - errors
@@ -19,221 +18,571 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Channel Signal API! You can use our API to access Channel Signal API endpoints, which can get information on various reports, products, reviews and scores.
 
 We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
 
 # Authentication
 
 > To authorize, use this code:
 
 ```ruby
-require 'kittn'
+require 'channelsignal'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+api = ChannelSignal::APIClient.authorize!('your-api-key')
 ```
 
 ```python
-import kittn
+import channelsignal
 
-api = kittn.authorize('meowmeowmeow')
+api = channelsignal.authorize('your-api-key')
 ```
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+curl "https://api.channelsignal.com/v1/authorize"
+  -H "Authorization: Token token=your-api-key"
 ```
 
 ```javascript
-const kittn = require('kittn');
+const channelsignal = require('channelsignal');
 
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+let api = channelsignal.authorize('your-api-key');
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "authorized": true,
+  "message": "Your API key is valid and active."
+}
 ```
 
-This endpoint retrieves all kittens.
+Channel Signal uses API keys to allow access to the API. You can [request an API key here](mailto:support@channelsignal.com?subject=API Key Request).
+
+The API expects for the API key to be included in all API requests to the server in a header that looks like the following:
+
+`authentication-token: your-api-key`
+
+<aside class="notice">
+You must replace <code>your-api-key</code> with your provided API key.
+</aside>
+
+# Reports
+
+## Get List of Reports
+
+```ruby
+require 'channelsignal'
+
+api = ChannelSignal::APIClient.authorize!('your-api-key')
+api.reports.get
+```
+
+```python
+import channelsignal
+
+api = channelsignal.authorize('your-api-key')
+api.reports.get()
+```
+
+```shell
+curl "https://api.channelsignal.com/v1/reports"
+  -H "Authorization: Token token=your-api-key"
+```
+
+```javascript
+const channelsignal = require('channelsignal');
+
+let api = channelsignal.authorize('your-api-key');
+let reports = api.reports.get();
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "total_results": 3,
+  "reports": [
+    {
+      "id": "4333f847-1b1d-4e9a-b2d2-7d8e93ccc0f2",
+      "name":  "Brand Report"
+    },
+    {
+      "id": "ed897deb-d67c-450b-bea7-595a774c6a8a",
+      "name":  "Monthly Report"
+    },
+    {
+      "id": "eb023b28-425c-491a-b36b-ea9fce27bff4",
+      "name":  "Annual Report"
+    }
+  ]
+}
+```
+This endpoint retrieves a list of available reports.
+
+<aside class="warning">The results returned from this endpoint are the available values that can be used in the next request.</aside>
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET https://api.channelsignal.com/v1/reports`
+
+## Get Report Attributes
+
+```ruby
+require 'channelsignal'
+
+api = ChannelSignal::APIClient.authorize!('your-api-key')
+api.reports.get(<ID>)
+```
+
+```python
+import channelsignal
+
+api = channelsignal.authorize('your-api-key')
+api.reports.get(<ID>)
+```
+
+```shell
+curl "https://api.channelsignal.com/v1/reports/<ID>"
+  -H "Authorization: Token token=your-api-key"
+```
+
+```javascript
+const channelsignal = require('channelsignal');
+
+let api = channelsignal.authorize('your-api-key');
+let reports = api.reports.get(<ID>);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "name": "Monthly Report",
+  "brands": [
+      "Brand 1",
+      "Brand 2",
+      "Brand 3"
+  ],
+  "categories": [
+      "Category 1",
+      "Category 2",
+      "Category 3",
+      "Category 4",
+      "Category 5"
+  ],
+  "sentiment": [
+      "very positive",
+      "positive",
+      "neutral",
+      "negative",
+      "very negative"
+  ],
+  "sources": [
+      "Amazon",
+      "CVS",
+      "Target",
+      "Walmart"
+  ]
+}
+```
+
+This endpoint retrieves the available parameter values for a specific report.
+
+<aside class="warning">The results returned from this endpoint are the available values that can be used in the filter parameters for the other endpoints.</aside>
+
+<!--<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>-->
+
+### HTTP Request
+
+`GET https://api.channelsignal.com/v1/reports/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | The ID of the report to retrieve
+
+
+# Products
+## Get List of Products
+
+```ruby
+require 'channelsignal'
+
+api = ChannelSignal::APIClient.authorize!('your-api-key')
+api.products.get
+```
+
+```python
+import channelsignal
+
+api = channelsignal.authorize('your-api-key')
+api.products.get()
+```
+
+```shell
+curl "https://api.channelsignal.com/v1/products"
+  -H "Authorization: Token token=your-api-key"
+```
+
+```javascript
+const channelsignal = require('channelsignal');
+
+let api = channelsignal.authorize('your-api-key');
+let products = api.reports.get();
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "current_page": 1,
+  "total_pages": 4,
+  "total_results": 100,
+  "products": [
+    {
+      "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
+      "product": "Onyx Folding Lamp - Lamps - ACME",
+      "brand": "ACME",
+      "category": "Lamps",
+      "start_date": "2019-05-01",
+      "end_date": "2019-07-01",
+      "total_positive": 264,
+      "positive_percent": "91%",
+      "total_non_positive": 27,
+      "non_positive_percent": "9%",
+      "very_positive": 235,
+      "positive": 29,
+      "neutral": 7,
+      "negative": 4,
+      "very_negative": 16,
+      "star_average": 4.59,
+      "total_reviews": 291
+    }
+  ]
+}
+```
+
+This endpoint retrieves a list of products from a specified report.
+
+### HTTP Request
+
+`GET https://api.channelsignal.com/v1/products`
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+Parameter | Required | Default | Description
+--------- | -------- | ------- | -----------
+report_id | true | | The ID of the report to return product results from.
+start_date | true | | Start date in the format YYYY-MM-DD.
+end_date | true | | End date in the format YYYY-MM-DD.
+brands | false | | Brands to return results for. Separate each value by a comma. The default is all brands.
+categories | false | | Categories to return results for. Separate each value by a comma. The default is all categories.
+sources | false | | Sources to return results for. Separate each value by a comma. The default is all sources.
+sentiment | false | | Sentiment types to return results for. Separate each value by a comma. The default is all sentiment types.
+filter_duplicates | false | false | Remove duplicate reviews from different sources.
+page | false | 1 | The starting page offset to return results from.
+per_page | false | 25 | The total number of results per page. The maximum value is 500.
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Remember — The available values to use in the parameters for brands, categories, sources and sentiment come from querying the reports endpoint for a specified report using it's ID.
 </aside>
 
-## Get a Specific Kitten
+# Reviews
+## Get List of Reviews
 
 ```ruby
-require 'kittn'
+require 'channelsignal'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
+api = ChannelSignal::APIClient.authorize!('your-api-key')
+api.reviews.get
 ```
 
 ```python
-import kittn
+import channelsignal
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
+api = channelsignal.authorize('your-api-key')
+api.reviews.get()
 ```
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
+curl "https://api.channelsignal.com/v1/reviews"
+  -H "Authorization: Token token=your-api-key"
 ```
 
 ```javascript
-const kittn = require('kittn');
+const channelsignal = require('channelsignal');
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+let api = channelsignal.authorize('your-api-key');
+let reviews = api.reviews.get();
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "current_page": 1,
+  "total_pages": 4,
+  "total_results": 100,
+  "reviews": [
+    {
+        "review_id": 124993721,
+        "review_date_timestamp": 1556715600,
+        "review_date": "2019-05-01 06:00:00",
+        "source": "Amazon",
+        "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
+        "product": "Onyx Folding Flamp - Lamps - ACME",
+        "brand": "ACME",
+        "author": "Maria R.",
+        "verified": "yes",
+        "rating_text": "very positive",
+        "review_title": "Highly Recommended",
+        "review": "This is the best lamp ever!!",
+        "category": "Lamps",
+        "url": "https://www.amazon.com/ACME-Onyx-Folding-Lamp/dp/B00XC5KN64",
+        "asin": "B00XC5KN64",
+        "price": "39.99",
+        "size": "N/A",
+        "color": "Black",
+        "model": "TT-DL10",
+        "upc": "1234567890",
+        "review_tags": "folding"
+    }
+  ]
 }
+
 ```
 
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+This endpoint retrieves a list of reviews from a specified report.
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`GET https://api.channelsignal.com/v1/reviews`
 
-### URL Parameters
+### Query Parameters
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+Parameter | Required | Default | Description
+--------- | -------- | ------- | -----------
+report_id | true | | The ID of the report to return review results from.
+start_date | true | | Start date in the format YYYY-MM-DD.
+end_date | true | | End date in the format YYYY-MM-DD.
+brands | false | | Brands to return results for. Separate each value by a comma. The default is all brands.
+categories | false | | Categories to return results for. Separate each value by a comma. The default is all categories.
+sources | false | | Sources to return results for. Separate each value by a comma. The default is all sources.
+sentiment | false | | Sentiment types to return results for. Separate each value by a comma. The default is all sentiment types.
+filter_duplicates | false | false | Remove duplicate reviews from different sources.
+page | false | 1 | The starting page offset to return results from.
+per_page | false | 25 | The total number of results per page. The maximum value is 500.
 
-## Delete a Specific Kitten
+<aside class="success">
+Remember — The available values to use in the parameters for brands, categories, sources and sentiment come from querying the reports endpoint for a specified report using it's ID.
+</aside>
+
+
+# CS Scores
+## Get List of Product Scores
 
 ```ruby
-require 'kittn'
+require 'channelsignal'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
+api = ChannelSignal::APIClient.authorize!('your-api-key')
+api.scores.get
 ```
 
 ```python
-import kittn
+import channelsignal
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
+api = channelsignal.authorize('your-api-key')
+api.scores.get()
 ```
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
+curl "https://api.channelsignal.com/v1/scores"
+  -H "Authorization: Token token=your-api-key"
 ```
 
 ```javascript
-const kittn = require('kittn');
+const channelsignal = require('channelsignal');
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
+let api = channelsignal.authorize('your-api-key');
+let scores = api.scores.get();
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "deleted" : ":("
+  "current_page": 1,
+  "total_pages": 4,
+  "total_results": 1,
+  "products": [
+    {
+      "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
+      "product": "Onyx Folding Lamp - Lamps - ACME",
+      "brand": "ACME",
+      "very_positive": 1071,
+      "positive": 130,
+      "neutral": 54,
+      "negative": 35,
+      "very_negative": 69,
+      "star_average": 4.54,
+      "drivers": [
+          {
+              "name": "Competitive Brand Mentions",
+              "star_average": 4.0,
+              "total_reviews": 1
+          },
+          {
+              "name": "Pivot Language",
+              "star_average": 4.36,
+              "total_reviews": 75
+          },
+          {
+              "name": "Price / Value",
+              "star_average": 4.33,
+              "total_reviews": 129
+          },
+          {
+              "name": "Quality / Satisfaction",
+              "star_average": 4.36,
+              "total_reviews": 235
+          },
+          {
+              "name": "Reliable / Usage",
+              "star_average": 4.53,
+              "total_reviews": 173
+          },
+          {
+              "name": "Safety",
+              "star_average": 0.0,
+              "total_reviews": 0
+          }
+      ],
+      "total_reviews": 1359
+    }
+  ]
 }
 ```
 
-This endpoint deletes a specific kitten.
+This endpoint retrieves scores for a list of products for a specified report.
 
 ### HTTP Request
 
-`DELETE http://example.com/kittens/<ID>`
+`GET https://api.channelsignal.com/v1/scores`
 
-### URL Parameters
+### Query Parameters
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
+Parameter | Required | Default | Description
+--------- | -------- | ------- | -----------
+report_id | true | | The ID of the report to return score results from.
+start_date | false | Today's Date - 12 months | Start date in the format YYYY-MM-DD.
+end_date | false | Today's Date | End date in the format YYYY-MM-DD.
+brands | false | | Brands to return results for. Separate each value by a comma. The default is all brands.
+categories | false | | Categories to return results for. Separate each value by a comma. The default is all categories.
+sources | false | | Sources to return results for. Separate each value by a comma. The default is all sources.
+filter_duplicates | false | false | Remove duplicate reviews from different sources.
+page | false | 1 | The starting page offset to return results from.
+per_page | false | 25 | The total number of results per page. The maximum value is 500.
 
+<aside class="success">
+Remember — The available values to use in the parameters for brands, categories, sources and sentiment come from querying the reports endpoint for a specified report using it's ID.
+</aside>
+
+## Get Product Scores
+
+```ruby
+require 'channelsignal'
+
+api = ChannelSignal::APIClient.authorize!('your-api-key')
+api.scores.get(<ID>)
+```
+
+```python
+import channelsignal
+
+api = channelsignal.authorize('your-api-key')
+api.scores.get(<ID>)
+```
+
+```shell
+curl "https://api.channelsignal.com/v1/scores/<ID>"
+  -H "Authorization: Token token=your-api-key"
+```
+
+```javascript
+const channelsignal = require('channelsignal');
+
+let api = channelsignal.authorize('your-api-key');
+let scores = api.scores.get(<ID>);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
+  "product": "Onyx Folding Lamp - Lamps - ACME",
+  "brand": "ACME",
+  "very_positive": 1071,
+  "positive": 130,
+  "neutral": 54,
+  "negative": 35,
+  "very_negative": 69,
+  "star_average": 4.54,
+  "drivers": [
+      {
+          "name": "Competitive Brand Mentions",
+          "star_average": 4.0,
+          "total_reviews": 1
+      },
+      {
+          "name": "Pivot Language",
+          "star_average": 4.36,
+          "total_reviews": 75
+      },
+      {
+          "name": "Price / Value",
+          "star_average": 4.33,
+          "total_reviews": 129
+      },
+      {
+          "name": "Quality / Satisfaction",
+          "star_average": 4.36,
+          "total_reviews": 235
+      },
+      {
+          "name": "Reliable / Usage",
+          "star_average": 4.53,
+          "total_reviews": 173
+      },
+      {
+          "name": "Safety",
+          "star_average": 0.0,
+          "total_reviews": 0
+      }
+  ],
+  "total_reviews": 1359
+}
+```
+
+This endpoint retrieves scores for an individual product.
+
+### HTTP Request
+
+`GET https://api.channelsignal.com/v1/scores/<ID>`
+
+### Query Parameters
+
+Parameter | Required | Default | Description
+--------- | -------- | ------- | -----------
+ID | true | | The ID of the product to retrieve
+start_date | false | Today's Date - 12 months | Start date in the format YYYY-MM-DD.
+end_date | false | Today's Date | End date in the format YYYY-MM-DD.
+sources | false | | Sources to return results for. Separate each value by a comma. The default is all sources.
+filter_duplicates | false | false | Remove duplicate reviews from different sources.
+
+# Rate Limits
+
+The API has a rate limit of 5 requests over a 15 second period, which averages to roughly 20 requests/minute. This should be sufficient for most use cases. In the event you are running into any issues with these limits, please [let us know](mailto:support@channelsignal.com?subject=API Rate Limits) and we would be happy to review.
