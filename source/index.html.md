@@ -247,8 +247,8 @@ let products = api.reports.get();
       "product": "Onyx Folding Lamp - Lamps - ACME",
       "brand": "ACME",
       "category": "Lamps",
-      "start_date": "2019-05-01",
-      "end_date": "2019-07-01",
+      "review_start_date": "2019-05-01",
+      "review_end_date": "2019-07-01",
       "total_positive": 264,
       "positive_percent": "91%",
       "total_non_positive": 27,
@@ -276,8 +276,10 @@ This endpoint retrieves a list of products from a specified report.
 Parameter | Required | Default | Description
 --------- | -------- | ------- | -----------
 report_id | true | | The ID of the report to return product results from.
-start_date | true | | Start date in the format YYYY-MM-DD.
-end_date | true | | End date in the format YYYY-MM-DD.
+created_start_date | true | | Start date when Channel Signal received the review. In the format YYYY-MM-DD.
+created_end_date | true | | End date when Channel Signal received the review. In the format YYYY-MM-DD.
+review_start_date | true | | Start date when the user created the review. In the format YYYY-MM-DD.
+review_end_date | true | | End date when the user created the review. In the format YYYY-MM-DD.
 brands | false | | Brands to return results for. Separate each value by a comma. The default is all brands.
 categories | false | | Categories to return results for. Separate each value by a comma. The default is all categories.
 sources | false | | Sources to return results for. Separate each value by a comma. The default is all sources.
@@ -329,6 +331,8 @@ let reviews = api.reviews.get();
   "reviews": [
     {
         "review_id": 124993721,
+        "created_date_timestamp": 1556715600,
+        "created_date": "2019-05-01 06:00:00",
         "review_date_timestamp": 1556715600,
         "review_date": "2019-05-01 06:00:00",
         "source": "Amazon",
@@ -366,10 +370,13 @@ This endpoint retrieves a list of reviews from a specified report.
 Parameter | Required | Default | Description
 --------- | -------- | ------- | -----------
 report_id | true | | The ID of the report to return review results from.
-start_date | true | | Start date in the format YYYY-MM-DD.
-end_date | true | | End date in the format YYYY-MM-DD.
+created_start_date | true | | Start date when Channel Signal received the review. In the format YYYY-MM-DD.
+created_end_date | true | | End date when Channel Signal received the review. In the format YYYY-MM-DD.
+review_start_date | true | | Start date when the user created the review. In the format YYYY-MM-DD.
+review_end_date | true | | End date when the user created the review. In the format YYYY-MM-DD.
 brands | false | | Brands to return results for. Separate each value by a comma. The default is all brands.
 categories | false | | Categories to return results for. Separate each value by a comma. The default is all categories.
+product_ids | false | | Products to return results for. Separate each value by a comma. The default is all products.
 sources | false | | Sources to return results for. Separate each value by a comma. The default is all sources.
 sentiment | false | | Sentiment types to return results for. Separate each value by a comma. The default is all sentiment types.
 filter_duplicates | false | false | Remove duplicate reviews from different sources.
