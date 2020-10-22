@@ -337,6 +337,7 @@ let reviews = api.reviews.get();
         "review_date": "2019-05-01 06:00:00",
         "source": "Amazon",
         "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
+        "external_product_id": "7624939",
         "product": "Onyx Folding Flamp - Lamps - ACME",
         "brand": "ACME",
         "author": "Maria R.",
@@ -361,7 +362,7 @@ let reviews = api.reviews.get();
 
 ```
 
-This endpoint retrieves a list of reviews from a specified report.
+This endpoint retrieves a list of reviews from a specified report. The external_product_id is the product ID retrieved from the source.
 
 ### HTTP Request
 
