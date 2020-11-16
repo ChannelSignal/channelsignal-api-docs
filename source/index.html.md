@@ -204,6 +204,119 @@ Parameter | Description
 --------- | -----------
 ID | The ID of the report to retrieve
 
+# Pricing
+## Get List of Products with Price
+
+```ruby
+require 'channelsignal'
+
+api = ChannelSignal::APIClient.authorize!('your-api-key')
+api.pricing.get
+```
+
+```python
+import channelsignal
+
+api = channelsignal.authorize('your-api-key')
+api.pricing.get()
+```
+
+```shell
+curl "https://api.channelsignal.com/v1/pricing"
+  -H "Authorization: Token token=your-api-key"
+```
+
+```javascript
+const channelsignal = require('channelsignal');
+
+let api = channelsignal.authorize('your-api-key');
+let pricing = api.reports.get();
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "current_page": 1,
+  "total_pages": 4,
+  "total_results": 100,
+  "products": [
+    {
+      "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
+      "internal_id": "GS455",
+      "product": "Onyx Folding Lamp - Lamps - ACME",
+      "brand": "ACME",
+      "last_updated_date": "2020-07-01",
+      "pricing": [
+        "Amazon": [
+          {
+            "avg": "96.49",
+            "min": "62.99",
+            "max": "129.99",
+            "last_updated": "2020-10-05"
+          },
+          "B004RUH9ZS":
+          {
+            "avg": "97.49",
+            "min": "64.99",
+            "max": "129.99",
+            "last_updated": "2020-10-05"
+          },
+          "B00R1FLYK2":
+          {
+            "price": "74.99",
+            "last_updated": "2020-09-20"
+          },
+          "B00T7MMCDU":
+          {
+            "avg": "88.99",
+            "min": "62.99",
+            "max": "114.99",
+            "last_updated": "2020-10-01"
+          }
+        ],
+        "CVS":
+        {
+          "price": "59.99",
+          "last_updated": "2020-08-10"
+        }
+        "Target": 
+        {
+          "price": "52.99",
+          "last_updated": "2020-10-01"
+        }
+        "Walmart":
+        {
+          "price": "59.99",
+          "last_updated": "2020-10-01"
+        }
+      ]
+    }
+  ]
+}
+```
+
+This endpoint retrieves a list of products with pricing data from a specified report. Products are available through the API as soon as they appear on the source site. As a result they may not always contain review data. Price contains the most recent known price from each source.
+
+### HTTP Request
+
+`GET https://api.channelsignal.com/v1/pricing`
+
+### Query Parameters
+
+Parameter | Required | Default | Description
+--------- | -------- | ------- | -----------
+report_id | true | | The ID of the report to return product results from.
+internal_id | false | | The internal third party ID of the product. Multiple id's should be passed as comma separated string.
+last_updated_date | false | | Date when Channel Signal received a changed pricing. In the format YYYY-MM-DD.
+brands | false | | Brands to return results for. Separate each value by a comma. The default is all brands.
+sources | false | | Sources to return results for. Separate each value by a comma. The default is all sources.
+page | false | 1 | The starting page offset to return results from.
+per_page | false | 25 | The total number of results per page. The maximum value is 100.
+
+<aside class="success">
+Remember — The available values to use in the parameters for brands, sources and sentiment come from querying the reports endpoint for a specified report using it's ID.
+</aside>
 
 # Products
 ## Get List of Products
@@ -244,9 +357,11 @@ let products = api.reports.get();
   "products": [
     {
       "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
+      "internal_id": "GS455",
       "product": "Onyx Folding Lamp - Lamps - ACME",
       "brand": "ACME",
       "category": "Lamps",
+      "last_updated_date": "2020-07-01",
       "review_start_date": "2019-05-01",
       "review_end_date": "2019-07-01",
       "total_positive": 264,
@@ -265,8 +380,7 @@ let products = api.reports.get();
 }
 ```
 
-This endpoint retrieves a list of products from a specified report.
-
+This endpoint retrieves a list of products from a specified report that contain reviews. 
 ### HTTP Request
 
 `GET https://api.channelsignal.com/v1/products`
@@ -331,13 +445,14 @@ let reviews = api.reviews.get();
   "reviews": [
     {
         "review_id": 124993721,
+        "external_product_id": "7624939",
+        "internal_id": "GS455",
         "created_date_timestamp": 1556715600,
         "created_date": "2019-05-01 06:00:00",
         "review_date_timestamp": 1556715600,
         "review_date": "2019-05-01 06:00:00",
         "source": "Amazon",
         "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
-        "external_product_id": "7624939",
         "product": "Onyx Folding Flamp - Lamps - ACME",
         "brand": "ACME",
         "author": "Maria R.",
@@ -430,6 +545,7 @@ let scores = api.scores.get();
   "products": [
     {
       "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
+      "internal_id": "GS455",
       "product": "Onyx Folding Lamp - Lamps - ACME",
       "brand": "ACME",
       "very_positive": 1071,
@@ -533,6 +649,7 @@ let scores = api.scores.get(<ID>);
 ```json
 {
   "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
+  "internal_id": "GS455",
   "product": "Onyx Folding Lamp - Lamps - ACME",
   "brand": "ACME",
   "very_positive": 1071,
