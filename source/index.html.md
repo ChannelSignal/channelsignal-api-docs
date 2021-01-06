@@ -246,6 +246,7 @@ let pricing = api.reports.get();
       "internal_id": "GS455",
       "product": "Onyx Folding Lamp - Lamps - ACME",
       "brand": "ACME",
+      "category": "Lamps",
       "last_updated_date": "2020-07-01",
       "pricing": [
         "Amazon": [
@@ -253,42 +254,109 @@ let pricing = api.reports.get();
             "avg": "96.49",
             "min": "62.99",
             "max": "129.99",
-            "last_updated": "2020-10-05"
+            "last_updated_date": "2020-10-05"
           },
           "B004RUH9ZS":
           {
+            "model": "OFL-2345",
+            "upc": "1234657890",
+            "image_url": "https://example.com/image.jpg",
             "avg": "97.49",
             "min": "64.99",
             "max": "129.99",
-            "last_updated": "2020-10-05"
+            "colors": [
+                "Black",
+                "Caribou",
+                "Feather",
+                "Quartz",
+                "White",
+                "Wild Grape"
+            ],
+            "attributes":
+            {
+              // ... this product's external attributes e.g.,
+              "Style ID": "GS455",
+              "Materialization": "G4203L1",
+              "Materialization Number": "G4203L1020",
+              "Season": "2019-2 Fall I",
+              "Retail ID": "208660"
+            },
+            "last_updated_date": "2020-10-05"
           },
           "B00R1FLYK2":
           {
+            "model": "OFL-2345",
+            "upc": "1234657890",
+            "image_url": "https://example.com/image.jpg",
             "price": "74.99",
-            "last_updated": "2020-09-20"
+            "colors": "",
+            "attributes":
+            {
+              // ... this product's external attributes
+            },
+            "last_updated_date": "2020-09-20"
           },
           "B00T7MMCDU":
           {
+            "model": "OFL-2345",
+            "upc": "1234657890",
+            "image_url": "https://example.com/image.jpg",
             "avg": "88.99",
             "min": "62.99",
             "max": "114.99",
-            "last_updated": "2020-10-01"
+            "colors": "",
+            "attributes":
+            {
+              // ... this product's external attributes
+            },
+            "last_updated_date": "2020-10-01"
           }
         ],
         "CVS":
         {
+          "model": "OFL-2345",
+          "upc": "1234657890",
+          "image_url": "https://example.com/image.jpg",
           "price": "59.99",
-          "last_updated": "2020-08-10"
+          "colors": "",
+          "attributes":
+          {
+            // ... this product's external attributes
+          },
+          "last_updated_date": "2020-08-10"
         }
         "Target": 
         {
+          "model": "OFL-2345",
+          "upc": "1234657890",
+          "image_url": "https://example.com/image.jpg",
           "price": "52.99",
-          "last_updated": "2020-10-01"
+          "colors": [
+              "Sage Green"
+          ],
+          "attributes":
+          {
+            // ... this product's external attributes
+          },
+          "last_updated_date": "2020-10-01"
         }
         "Walmart":
         {
+          "model": "OFL-2345",
+          "upc": "1234657890",
+          "image_url": "https://example.com/image.jpg",
           "price": "59.99",
-          "last_updated": "2020-10-01"
+          "colors": [
+              "Black",
+              "Coral Pink",
+              "Gold Yellow Microfiber",
+              "Grey"
+          ],
+          "attributes":
+          {
+            // ... this product's external attributes
+          },
+          "last_updated_date": "2020-10-01"
         }
       ]
     }
@@ -308,7 +376,8 @@ Parameter | Required | Default | Description
 --------- | -------- | ------- | -----------
 report_id | true | | The ID of the report to return product results from.
 internal_id | false | | The internal third party ID of the product. Multiple id's should be passed as comma separated string.
-last_updated_date | false | | Date when Channel Signal received a changed pricing. In the format YYYY-MM-DD.
+last_updated_start_date | false | | Start date when Channel Signal received a changed pricing. In the format YYYY-MM-DD.
+last_updated_end_date | false | | End date when Channel Signal received a changed pricing. In the format YYYY-MM-DD.
 brands | false | | Brands to return results for. Separate each value by a comma. The default is all brands.
 sources | false | | Sources to return results for. Separate each value by a comma. The default is all sources.
 page | false | 1 | The starting page offset to return results from.
@@ -357,7 +426,6 @@ let products = api.reports.get();
   "products": [
     {
       "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
-      "internal_id": "GS455",
       "product": "Onyx Folding Lamp - Lamps - ACME",
       "brand": "ACME",
       "category": "Lamps",
@@ -446,7 +514,6 @@ let reviews = api.reviews.get();
     {
         "review_id": 124993721,
         "external_product_id": "7624939",
-        "internal_id": "GS455",
         "created_date_timestamp": 1556715600,
         "created_date": "2019-05-01 06:00:00",
         "review_date_timestamp": 1556715600,
@@ -545,7 +612,6 @@ let scores = api.scores.get();
   "products": [
     {
       "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
-      "internal_id": "GS455",
       "product": "Onyx Folding Lamp - Lamps - ACME",
       "brand": "ACME",
       "very_positive": 1071,
@@ -649,7 +715,6 @@ let scores = api.scores.get(<ID>);
 ```json
 {
   "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
-  "internal_id": "GS455",
   "product": "Onyx Folding Lamp - Lamps - ACME",
   "brand": "ACME",
   "very_positive": 1071,
