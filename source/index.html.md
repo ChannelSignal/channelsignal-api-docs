@@ -777,4 +777,4 @@ filter_duplicates | false | false | Remove duplicate reviews from different sour
 
 # Rate Limits
 
-The API has a rate limit of 5 requests over a 15 second period, which averages to roughly 20 requests/minute. This should be sufficient for most use cases. In the event you are running into any issues with these limits, please [let us know](mailto:support@channelsignal.com?subject=API Rate Limits) and we would be happy to review.
+The API has a rate limit of 5 requests over a 10 second period, which averages to roughly 30 requests/minute. This should be sufficient for most use cases. In the event you are running into any issues with these limits, please [let us know](mailto:support@channelsignal.com?subject=API Rate Limits) and we would be happy to review.
