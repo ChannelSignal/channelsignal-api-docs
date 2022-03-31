@@ -247,6 +247,8 @@ let pricing = api.reports.get();
       "product": "Onyx Folding Lamp - Lamps - ACME",
       "brand": "ACME",
       "category": "Lamps",
+      "primary_category": "Lamps",
+      "secondary_category": "Modern",
       "last_updated_date": "2020-07-01",
       "pricing": [
         "Amazon": [
@@ -429,6 +431,8 @@ let products = api.reports.get();
       "product": "Onyx Folding Lamp - Lamps - ACME",
       "brand": "ACME",
       "category": "Lamps",
+      "primary_category": "Lamps",
+      "secondary_category": "Modern",
       "last_updated_date": "2020-07-01",
       "review_start_date": "2019-05-01",
       "review_end_date": "2019-07-01",
@@ -529,6 +533,8 @@ let reviews = api.reviews.get();
         "review_title": "Highly Recommended",
         "review": "This is the best lamp ever!!",
         "category": "Lamps",
+        "primary_category": "Lamps",
+        "secondary_category": "Modern",
         "url": "https://www.amazon.com/ACME-Onyx-Folding-Lamp/dp/B00XC5KN64",
         "image_url": "https://cdn.shopify.com/s/files/1/2170/8465/products/ACME-Onyx-Folding-Lamp.jpg?v=1571609581",
         "asin": "B00XC5KN64",
