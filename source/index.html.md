@@ -245,6 +245,7 @@ let pricing = api.reports.get();
       "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
       "internal_id": "GS455",
       "product": "Onyx Folding Lamp - Lamps - ACME",
+      "product_name": "Onyx Folding Lamp",
       "brand": "ACME",
       "category": "Lamps",
       "primary_category": "Lamps",
@@ -429,6 +430,7 @@ let products = api.reports.get();
     {
       "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
       "product": "Onyx Folding Lamp - Lamps - ACME",
+      "product_name": "Onyx Folding Lamp",
       "brand": "ACME",
       "category": "Lamps",
       "primary_category": "Lamps",
@@ -525,6 +527,7 @@ let reviews = api.reviews.get();
         "source": "Amazon",
         "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
         "product": "Onyx Folding Flamp - Lamps - ACME",
+        "product_name": "Onyx Folding Lamp",
         "brand": "ACME",
         "author": "Maria R.",
         "verified": "yes",
@@ -619,6 +622,7 @@ let scores = api.scores.get();
     {
       "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
       "product": "Onyx Folding Lamp - Lamps - ACME",
+      "product_name": "Onyx Folding Lamp",
       "brand": "ACME",
       "very_positive": 1071,
       "positive": 130,
@@ -722,6 +726,7 @@ let scores = api.scores.get(<ID>);
 {
   "product_id": "07883fdf-c293-411a-9ce9-8d1912b9f8f6",
   "product": "Onyx Folding Lamp - Lamps - ACME",
+  "product_name": "Onyx Folding Lamp",
   "brand": "ACME",
   "very_positive": 1071,
   "positive": 130,
