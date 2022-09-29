@@ -536,8 +536,6 @@ let reviews = api.reviews.get();
         "review_title": "Highly Recommended",
         "review": "This is the best lamp ever!!",
         "category": "Lamps",
-        "primary_category": "Lamps",
-        "secondary_category": "Modern",
         "url": "https://www.amazon.com/ACME-Onyx-Folding-Lamp/dp/B00XC5KN64",
         "image_url": "https://cdn.shopify.com/s/files/1/2170/8465/products/ACME-Onyx-Folding-Lamp.jpg?v=1571609581",
         "asin": "B00XC5KN64",
@@ -546,7 +544,10 @@ let reviews = api.reviews.get();
         "color": "Black",
         "model": "TT-DL10",
         "upc": "1234567890",
+        "syndicate_hash": "d69818cd4fb2cca91896c7edbfbfd8c505ea8593",
         "review_tags": "folding"
+        "primary_category": "Lamps",
+        "secondary_category": "Modern",
     }
   ]
 }
