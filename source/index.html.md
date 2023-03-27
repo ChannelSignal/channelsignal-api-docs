@@ -545,6 +545,7 @@ let reviews = api.reviews.get();
         "model": "TT-DL10",
         "upc": "1234567890",
         "syndicate_hash": "d69818cd4fb2cca91896c7edbfbfd8c505ea8593",
+        "sanitized_hash": "d7514a0e213181ce97debb78d66703ce586d1a4a",
         "review_tags": "folding"
         "primary_category": "Lamps",
         "secondary_category": "Modern",
