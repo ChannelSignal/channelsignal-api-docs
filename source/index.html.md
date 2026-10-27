@@ -972,6 +972,74 @@ This endpoint updates a user and returns it. It takes the same body parameters a
 
 `PATCH https://api.channelsignal.com/v1/users/<ID>`
 
+# Password Resets
+
+## Request a Password Reset
+
+```shell
+curl "https://api.channelsignal.com/v1/password_reset"
+  -X POST
+  -H "Content-Type: application/json"
+  -d '{"email": "jane@example.com"}'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "message": "If that email has an account, a password reset link is on its way."
+}
+```
+
+This endpoint emails the user a link to reset their password, if the address belongs to an active account. It always responds with `202`, so it never reveals whether an email has an account. Only one email is sent per account per minute.
+
+This endpoint does not require an API key.
+
+### HTTP Request
+
+`POST https://api.channelsignal.com/v1/password_reset`
+
+### Body Parameters
+
+Parameter | Required | Description
+--------- | -------- | -----------
+email | true | The user's email address.
+
+## Complete a Password Reset
+
+```shell
+curl "https://api.channelsignal.com/v1/password_reset"
+  -X PATCH
+  -H "Content-Type: application/json"
+  -d '{"token": "token-from-the-email", "password": "a-new-password"}'
+```
+
+This endpoint sets a new password using the token from the reset email, then logs the user in. It returns the same response as [Log In](#log-in): the user and their API key.
+
+A token expires an hour after it's sent and works only once. Requesting another reset email replaces the earlier token. Resetting a password also confirms the account, clears any lockout from failed logins, and signs the user out of the Channel Signal platform.
+
+This endpoint does not require an API key.
+
+### HTTP Request
+
+`PATCH https://api.channelsignal.com/v1/password_reset`
+
+### Body Parameters
+
+Parameter | Required | Description
+--------- | -------- | -----------
+token | true | The token from the reset email.
+password | true | The new password, at least 8 characters.
+
+### Responses
+
+Status | Meaning
+------ | -------
+200 | Password changed and the user is logged in.
+403 | Password changed, but the account is inactive, so the user isn't logged in.
+404 | The token is invalid, expired or already used.
+422 | The new password failed validation.
+
 # Rate Limits
 
 The API has a rate limit of 5 requests over a 10 second period, which averages to roughly 30 requests/minute. This should be sufficient for most use cases. In the event you are running into any issues with these limits, please [let us know](mailto:support@channelsignal.com?subject=API Rate Limits) and we would be happy to review.
