@@ -788,6 +788,190 @@ end_date | false | Today's Date | End date in the format YYYY-MM-DD.
 sources | false | | Sources to return results for. Separate each value by a comma. The default is all sources.
 filter_duplicates | false | false | Remove duplicate reviews from different sources.
 
+# Sessions
+
+## Log In
+
+```shell
+curl "https://api.channelsignal.com/v1/sessions"
+  -X POST
+  -H "Content-Type: application/json"
+  -d '{"email": "jane@example.com", "password": "their-password"}'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "user": {
+    "id": 1234,
+    "first_name": "Jane",
+    "last_name": "Smith",
+    "email": "jane@example.com",
+    "username": "jane@example.com",
+    "position": "Brand Manager",
+    "role": "user",
+    "client_id": 56,
+    "active": true,
+    "confirmed": true,
+    "time_zone": null,
+    "last_login_at": "2026-10-20T14:03:11.000Z",
+    "created_at": "2024-02-01T09:00:00.000Z",
+    "updated_at": "2026-10-27T15:30:00.000Z"
+  },
+  "api_key": "user-api-key"
+}
+```
+
+This endpoint logs a user in with their Channel Signal platform email and password. It returns the user and their API key, which authenticates every other request as that user. A key is issued on the user's first login if they don't have one.
+
+This endpoint does not require an API key.
+
+After 50 failed attempts in a row, the account is locked for 2 hours. The platform uses the same limit.
+
+### HTTP Request
+
+`POST https://api.channelsignal.com/v1/sessions`
+
+### Body Parameters
+
+Parameter | Required | Description
+--------- | -------- | -----------
+email | true | The user's email address.
+password | true | The user's password.
+
+### Responses
+
+Status | Meaning
+------ | -------
+200 | Logged in.
+401 | Invalid email or password.
+403 | The password is correct, but the account is inactive or temporarily locked after too many failed logins.
+
+# Users
+
+Every user belongs to a client. What the caller can do depends on their role:
+
+Role | Can view | Can create and update
+---- | -------- | ---------------------
+user | Themselves | Themselves (no role or active changes)
+brand_admin | Users in their client | Themselves, plus `user` accounts in their client
+client_admin | Users in their client | Themselves, plus `user`, `brand_admin` and `client_admin` accounts in their client
+super_admin | All users | All users, in any client
+
+A user can never be given a role above the caller's own.
+
+## Get List of Users
+
+```shell
+curl "https://api.channelsignal.com/v1/users?page=1&per_page=25"
+  -H "Authorization: Token token=your-api-key"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "current_page": 1,
+  "total_pages": 1,
+  "total_results": 2,
+  "users": [
+    {
+      "id": 1234,
+      "first_name": "Jane",
+      "last_name": "Smith",
+      "email": "jane@example.com",
+      "role": "client_admin",
+      "client_id": 56,
+      "active": true,
+      "confirmed": true
+    },
+    {
+      "id": 1235,
+      "first_name": "Sam",
+      "last_name": "Lee",
+      "email": "sam@example.com",
+      "role": "user",
+      "client_id": 56,
+      "active": true,
+      "confirmed": true
+    }
+  ]
+}
+```
+
+This endpoint lists the users the caller can view. User objects have the same fields as the log in response; some are left out above to keep the example short.
+
+### HTTP Request
+
+`GET https://api.channelsignal.com/v1/users`
+
+### Query Parameters
+
+Parameter | Required | Default | Description
+--------- | -------- | ------- | -----------
+page | false | 1 | Page of results to return.
+per_page | false | 25 | Results per page, up to 500.
+client_id | false | | Only return users in this client. Super admins only.
+
+## Get a User
+
+```shell
+curl "https://api.channelsignal.com/v1/users/1234"
+  -H "Authorization: Token token=your-api-key"
+```
+
+This endpoint returns a single user object.
+
+### HTTP Request
+
+`GET https://api.channelsignal.com/v1/users/<ID>`
+
+## Create a User
+
+```shell
+curl "https://api.channelsignal.com/v1/users"
+  -X POST
+  -H "Authorization: Token token=your-api-key"
+  -H "Content-Type: application/json"
+  -d '{"first_name": "Sam", "last_name": "Lee", "email": "sam@example.com", "password": "a-strong-password"}'
+```
+
+This endpoint creates a user in the caller's client and returns it with status `201`. New users are active and have the `user` role unless you set otherwise. When you set a password, the account is confirmed and can log in right away. Without one, the user can't log in until a password is set.
+
+### HTTP Request
+
+`POST https://api.channelsignal.com/v1/users`
+
+### Body Parameters
+
+Parameter | Required | Description
+--------- | -------- | -----------
+first_name | true | First name.
+last_name | true | Last name.
+email | true | Email address. Must be unique.
+password | false | At least 8 characters.
+position | false | Job title.
+role | false | `user`, `brand_admin`, `client_admin` or `super_admin`. Must be a role the caller can assign.
+active | false | `false` to create the account deactivated.
+client_id | false | The client to create the user in. Super admins only.
+
+## Update a User
+
+```shell
+curl "https://api.channelsignal.com/v1/users/1234"
+  -X PATCH
+  -H "Authorization: Token token=your-api-key"
+  -H "Content-Type: application/json"
+  -d '{"position": "Director", "password": "a-new-password"}'
+```
+
+This endpoint updates a user and returns it. It takes the same body parameters as creating a user, all optional. Users can change their own name, position, email and password. Changing a password signs the user out of the Channel Signal platform.
+
+### HTTP Request
+
+`PATCH https://api.channelsignal.com/v1/users/<ID>`
+
 # Rate Limits
 
 The API has a rate limit of 5 requests over a 10 second period, which averages to roughly 30 requests/minute. This should be sufficient for most use cases. In the event you are running into any issues with these limits, please [let us know](mailto:support@channelsignal.com?subject=API Rate Limits) and we would be happy to review.
